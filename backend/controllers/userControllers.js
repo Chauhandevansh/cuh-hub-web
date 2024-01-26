@@ -9,18 +9,22 @@ import crypto from "crypto";
 export const registerUser = catchAsyncError(async(req,res,next)=>{
     const {name, email, password, role }= req.body;
     console.log(req.body);
-    const user = await User.create({
-        name,
-        email,
-        password,
-        avatar: {
-            public_id: "This is a sample id",
-            url: "profilePicUrl"
-        },
-        role
-    });
-
-    sendToken(user,201,res);
+    try {
+        const user = await User.create({
+            name,
+            email,
+            password,
+            avatar: {
+                public_id: "This is a sample id",
+                url: "profilePicUrl"
+            },
+            role:"hello"
+        });
+    
+        sendToken(user,201,res);   
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 //register user chatgpt

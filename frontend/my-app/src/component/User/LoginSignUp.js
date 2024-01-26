@@ -9,6 +9,7 @@ import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
+import axios from "axios";
 
 const LoginSignUp = ({ history, location }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const LoginSignUp = ({ history, location }) => {
     dispatch(login(loginEmail, loginPassword));
   };
 
-  const registerSubmit = (e) => {
+  const registerSubmit = async(e) => {
     e.preventDefault();
 
     const myForm = new FormData();
@@ -51,11 +52,36 @@ const LoginSignUp = ({ history, location }) => {
     myForm.set("password", password);
     myForm.set("avatar", avatar);
     console.log("Form Data:");
+    console.log(myForm);
 
-  for (let pair of myForm.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
+    const newdata = {
+      "name":name,
+      "email":email,
+      "password":"12345678",
+      "avatar": {
+                  "public_id": "This is a sample id",
+                  "url": "profilePicUrl"
+              },
+      "role":"hello"
   }
-    dispatch(register(myForm));
+
+  console.log(newdata)
+
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/v1/register', newdata);
+    console.log(response)
+  } catch (error) {
+    console.log(error)
+  }
+  
+   
+
+
+  // for (let pair of myForm.entries()) {
+  //   console.log(pair[0] + ', ' + pair[1]);
+  // }
+  //   dispatch(register(myForm));
   };
 
   const registerDataChange = (e) => {

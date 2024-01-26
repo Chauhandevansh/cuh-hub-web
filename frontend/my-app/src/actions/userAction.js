@@ -47,9 +47,8 @@ export const login = (email, password) => async (dispatch) => {
     const config = { headers: { "Content-Type": "application/json" } };
 
     const { data } = await axios.post(
-      `/api/v1/login`,
-      { email, password },
-      config
+      `http://localhost:3000/api/v1/login`,
+      { email, password }
     );
 
     dispatch({ type: LOGIN_SUCCESS, payload: data.user });
@@ -81,6 +80,9 @@ export const login = (email, password) => async (dispatch) => {
 
 // //register chatgpt
 export const register = (userData) => async (dispatch) => {
+  console.log("userData")
+  console.log(userData)
+
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
 
@@ -94,15 +96,25 @@ export const register = (userData) => async (dispatch) => {
 
     const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
-    const response = await axios.post('/api/v1/register', formData, config);
+    console.log("formData")
+    console.log(formData)
+
+
+
+    const response = await axios.post('http://localhost:3000/api/v1/register', formData, config);
+    console.log('response')
+    console.log(response)
+
 
     if (response.data && response.data.user) {
       dispatch({ type: REGISTER_USER_SUCCESS, payload: response.data.user });
     } else {
+      console.log("error in dispath/")
       throw new Error('Invalid response format');
     }
   } catch (error) {
     const errorMessage = error.response ? error.response.data.message : error.message;
+    console.log(errorMessage)
     dispatch({
       type: REGISTER_USER_FAIL,
       payload: errorMessage || 'Unknown Error',

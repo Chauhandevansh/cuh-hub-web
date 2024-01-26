@@ -64,7 +64,11 @@ const ProductDetails = ({ match }) => {
     dispatch(addItemsToCart(match.params.id, quantity));
     alert.success("Item Added To Cart");
   };
+  
 
+  const chatHandler = (productID) => {
+    document.location.href=`http://devanshchatapp.s3-website-us-east-1.amazonaws.com/chat.html#72ad296f-4031-44bf-bb9a-5bf95bafa0e8`;
+  };
   const submitReviewToggle = () => {
     open ? setOpen(false) : setOpen(true);
   };
@@ -147,6 +151,13 @@ const ProductDetails = ({ match }) => {
                   >
                     Add to Cart
                   </button>
+                  <button
+                    disabled={product.Stock < 1 ? true : false}
+                    onClick={()=>chatHandler(product._id)}
+                  >
+                    Chat 
+                  </button>
+
                 </div>
 
                 <p>
